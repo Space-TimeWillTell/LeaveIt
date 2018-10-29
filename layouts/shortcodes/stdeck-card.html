@@ -1,0 +1,29 @@
+<!-- Shortcode for <stdeck-card num="n[+-=]" class="foo"> -->
+<figure {{ with .Get "class" }}class="{{.}}"{{ end }}>
+    {{ $card := .Get "num" }}
+    {{ $num := replaceRE "([0-9]+|back)([-=+])?" "$1" $card }}
+    {{ $orient := replaceRE "([0-9]+|back)([-=+])?" "$2" $card }}
+    <img
+        src="/images/space-time-deck/card-{{ $num }}.png"
+        data-src="/images/space-time-deck/card-{{ $num }}.png"
+        data-sizes="auto"
+        {{ if $orient }}
+            {{ if (eq $orient "+") }}
+                class="lazyload yoric-stdeck yoric-single-card yoric-up-card"
+                alt="Card number {{ $num }}, upright"
+            {{ end }}
+            {{ if (eq $orient "-") }}
+                class="lazyload yoric-stdeck yoric-single-card yoric-reversed-card"
+                alt="Card number {{ $num }}, reversed"
+            {{ end }}
+            {{ if (eq $orient "=") }}
+                class="lazyload yoric-stdeck yoric-single-card yoric-horizontal-card"
+                alt="Card number {{ $num }}, horizontal"
+            {{ end }}
+        {{ else }}
+            class="lazyload yoric-stdeck yoric-single-card yoric-horizontal-card"
+            alt="Card number {{ $num }}, horizontal"
+        {{ end }}
+    />
+</figure>
+<!-- stdeck-card -->

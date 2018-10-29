@@ -2,3 +2,74 @@
 // Custom style
 // ==============================
 // You can override the variables in _variables.scss to customize the style
+
+i.space-time-will-tell.logo {
+    width: 1em;
+    height: 1em;
+    background-image: url(/images/me/small-clock-hand.png);
+    background-size: 1em 1em;
+    display: inline-block;
+}
+
+h2:hover, h3:hover {
+    background-color: aliceblue;
+}
+
+
+img.yoric-reversed-card {
+    transform: rotate(0.5turn);
+}
+
+img.yoric-horizontal-card {
+    transform: rotate(-0.25turn);
+}
+
+img.yoric-small-card {
+    width: 25%;
+    height: 25%;
+}
+
+img.yoric-single-card {
+    max-width: 60%;
+}
+
+img.yoric-hand-card {
+    width: 20%;
+    height: 20%;
+    border-style: solid;
+    border-radius: 4pt;
+    border-color: black;
+    border-width: 1pt;
+    box-shadow: 1px 1px 1px black;
+}
+
+img.yoric-reversed-card.yoric-hand-card {
+    // Reverse shadow orientation.
+    box-shadow: -1px -1px 1px black;
+}
+
+.post-warp .post-content img.yoric-hand-card {
+    display: inline;
+}
+
+.post-warp .post-content img.yoric-single-card {
+    display: inline;
+    max-width: 40%;
+}
+
+figure.yoric-hand {
+    display: block;
+    text-align: center;
+}
+
+img.yoric-single-card {
+    border-style: solid;
+    border-radius: 10pt;
+    border-color: black;
+    border-width: 1pt;
+    box-shadow: 5px 5px 3px black;
+}
+img.yoric-reversed-card.yoric-single-card {
+    // Reverse shadow orientation.
+    box-shadow: -5px -5px 1px black;
+}

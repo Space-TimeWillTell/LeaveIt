@@ -4,7 +4,7 @@
     <header class="post-header">
         <h1 class="post-title" itemprop="name headline">{{ .Title }}</h1>
         <div class="post-meta">
-                Written by <a itemprop="name" href="{{.Site.BaseURL }}" rel="author">{{ if isset .Params "author" }}{{ .Params.author }}{{ else }}{{ .Site.Params.author }}{{ end }}</a> with ♥ 
+                Written by <a itemprop="name" href="{{.Site.BaseURL }}" rel="author">{{ if isset .Params "author" }}{{ .Params.author }}{{ else }}{{ .Site.Params.author }}{{ end }}</a> with ♥
                 <span class="post-time">
                 on <time datetime={{.Date.Format (.Site.Params.dateFormatToUse | default "2006-01-02") }} itemprop="datePublished">{{ .Date.Format (.Site.Params.dateFormatToUse | default "January 2, 2006") }}</time>
                 </span>
@@ -35,16 +35,36 @@
           <img src="{{ printf "%s%s" $cdn_url $img }}" class="featured_image">
         {{ end }}
         <!-- end featured_image-->
-     
+
+
+        <!-- Table of Contents -->
+        {{ if .Params.toc }}
+        <div class="well col-md-4 col-sm-6">
+            <a href="#toc"><h2 id="toc">Table of Contents</h2></a>
+        {{ .TableOfContents }}
+        </div>
+        {{ end }}
+        <!-- End Table of Contents -->
+
+          {{ $altContent0 := .Content}}
+
+          <!-- Post-processing for ![]() -->
+
           {{ $reAltIn := "<img src=\"([^\"]+)\" alt=\"([^\"]+)?\" />" }}
           {{ $reAltOut :=  ( printf "<figure><img src=\"/images/ring.svg\" data-sizes=\"auto\" data-src=\"%s$1\" alt=\"$2\" class=\"lazyload\"><figcaption class=\"image-caption\">$2</figcaption></figure>" $cdn_url ) }}
-          {{ $altContent := .Content | replaceRE $reAltIn $reAltOut | safeHTML }}
+          {{ $altContent1 := $altContent0 | replaceRE $reAltIn $reAltOut | safeHTML }}
 
           {{ $reAltTitleIn := "<img src=\"([^\"]+)\" alt=\"([^\"]+)?\" title=\"([^\"]+)?\" />" }}
           {{ $reAltTitleOut := ( printf "<figure><img src=\"/images/ring.svg\" data-src=\"%s$1\" data-sizes=\"auto\" alt=\"$2\" title=\"$3\" class=\"lazyload\"><figcaption class=\"image-caption\">$2</figcaption></figure>" $cdn_url ) }}
-          {{ $finalContent := $altContent | replaceRE $reAltTitleIn $reAltTitleOut | safeHTML }}
+          {{ $altContent2 := $altContent1 | replaceRE $reAltTitleIn $reAltTitleOut | safeHTML }}
 
-          {{ $finalContent }}
+          <!-- Post-processing to make <hX>...</hX>-->
+
+          {{ $reClickToAnchorIn := "<(h[123456]) id=\"([^\"]+)\"[[:space:]]*>[[:space:]]*([^<]+)[[:space:]]*</h[123456]>" }} <!-- Why do I need a regexp for something that simple? -->
+          {{ $reClickToAnchorOut := "<a href=\"#$2\"><$1 id=\"$2\">$3</$1></a>" }}
+          {{ $reClickToAnchor := $altContent2 | replaceRE $reClickToAnchorIn $reClickToAnchorOut | safeHTML }}
+
+          {{ $reClickToAnchor }}
     </div>
 
     <div class="post-copyright">
@@ -54,7 +74,7 @@
                 <span>{{ . }} </span>
                 </p>
             {{ end }}
-           
+
             {{ with .Permalink }} 
             <p class="copyright-item">
                     <span>Link:</span>
@@ -88,7 +108,7 @@
     <div class="post-nav">
         {{ if .PrevInSection }}
         <a href="{{.PrevInSection.Permalink}}" class="prev" rel="prev" title="{{ .PrevInSection.Title}}"><i class="iconfont icon-left"></i>&nbsp;{{ .PrevInSection.Title}}</a>
-        {{ end }} 
+        {{ end }}
         {{ if .NextInSection }}
         <a href="{{.NextInSection.Permalink}}" class="next" rel="next" title="{{.NextInSection.Title}}">{{.NextInSection.Title}}&nbsp;<i class="iconfont icon-right"></i></a>
         {{ end }}
@@ -98,6 +118,14 @@
           {{ if ( .Params.showComments | default true ) }}
                  {{ if ne .Site.DisqusShortname "" }}
                      {{ template "_internal/disqus.html" . }}
+                 {{ end }}
+                 {{ if ne .Site.Params.utterancesRepo "" }}
+                 <script src="https://utteranc.es/client.js"
+                    repo="{{.Site.Params.utterancesRepo}}"
+                    issue-term="pathname"
+                    crossorigin="anonymous"
+                    async>
+                 </script>
                  {{ end }}
           {{ end }}
     </div>

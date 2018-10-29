@@ -17,7 +17,7 @@
     {{ $vendorscript := slice $jquery $prettify $dynamic $main | resources.Concat "/js/vendor_no_gallery.js" | resources.Minify }}
     <script src="{{ printf "%s%s" $cdn_url $vendorscript.RelPermalink }}" async=""></script>
     {{ end }}
-  
+
 {{ else }}
     {{ $main := slice  $jquery $main | resources.Concat "/js/vendor_main.js" | resources.Minify}}
     <script src="{{ printf "%s%s" $cdn_url $main.RelPermalink }}" async=""></script>

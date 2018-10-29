@@ -9,7 +9,7 @@
 {{ end }}
 {{ with .Site.Params.Social.Instagram }}
 <a href="https://www.instagram.com/{{.}}/" target="_blank" rel="me noopener"><i class="iconfont icon-instagram"></i></a> 
-{{ end }} 
+{{ end }}
 {{ with .Site.Params.Social.Wechat}}
 <a href="javascript:void(0);" target="_blank" rel="me noopener" onclick="document.getElementById('lightbox').style.display='inline';"><i class="iconfont icon-wechat"></i></a> 
 {{end}}
@@ -27,4 +27,7 @@
 {{ end }}
 {{ with .Site.Params.Social.Medium}}
 <a href="https://t.me/{{.}}" rel="me noopener"><i class="iconfont icon-medium-circle-fill"></i></a>
+{{ end }}
+{{ with .Site.Params.Social.Gitter}}
+<a href="https://gitter.im/{{.}}?utm_source=share-link&utm_medium=link&utm_campaign=share-link"><i class="iconfont icon-github"></i></a>
 {{ end }}
